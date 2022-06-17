@@ -112,7 +112,7 @@ What does ACID mean in Database Systems? (n.d.). Retrieved 20 May 2022, from htt
 
 For milestone three I imported the methods with some tweaks from the C# dat602CLR dataaccessobject into databaseaccessobject for the connection string and objects calling the procedures from the database. I also created forms with fields, labels and buttons corresponding to the arguments/data that needed to be passed, then passing them via buttons.
 
-The dataaccessobjects classes stayed the same but the front end functions had to be rebuilt. I choose continue having lightweight methods in the forms as well as ways to open forms after the right buttons were pressed.
+The dataaccessobjects classes stayed the same but the front end functions had to be rebuilt. I choose continue having lightweight methods in the forms as well as ways to open forms after the right buttons were pressed. I did this for Registration, Login, GameScreen, and Admin forms.
 
 I then added a write up to the report about my GUI forms and what they do with text fields and buttons explained how they work. 
 
