@@ -27,3 +27,83 @@ MySQL ON DELETE CASCADE: Deleting Data from Related Tables Automatically. (n.d.)
 
 What is CRUD? | Codecademy. (n.d.). Retrieved 18 March 2022, from https://www.codecademy.com/article/what-is-crud
 
+
+### Milestone Two Review
+
+For this milestone I created SQL procedures (storedProcedures.sql file) related to the game I outlined in milestone one. The area I focused on was the user login, registration, and administrator functions / creation. I got them working in sql then created a dataaccessobject in C# to connect the test cases to the database with intermediates.
+
+```
+private static MySqlConnection _mySqlConnection = null;
+        public static MySqlConnection mySqlConnection
+        {
+            get
+            {
+                if (_mySqlConnection == null)
+                {
+                    _mySqlConnection = new MySqlConnection(connectionString);
+                }
+
+                return _mySqlConnection;
+
+            }
+        }
+```
+Connection function (omitted the string) above is how the C# connected to the database.
+
+```
+public string RegisterPlayer(string pUserName, string pPassword)
+        {
+
+            List<MySqlParameter> p = new List<MySqlParameter>();
+            var aP = new MySqlParameter("@UserName", MySqlDbType.VarChar, 45);
+            aP.Value = pUserName;
+            p.Add(aP);
+
+            var bP = new MySqlParameter("@Password", MySqlDbType.VarChar, 45);
+            bP.Value = pPassword;
+            p.Add(bP);
+
+            var aDataSet = MySqlHelper.ExecuteDataset(DataAccessObject.mySqlConnection, "CALL registerPlayer(@UserName, @Password)", p.ToArray());
+
+            // expecting one table with one row
+            return (aDataSet.Tables[0].Rows[0])["MESSAGE"].ToString();
+
+        }
+```
+This is the function required to call the SQL function into C#. It is creating two arguments which line up with the SQL procedure then the executedataset is called which we then use the connection string to call the procedure using the dataset to help parse the data.
+
+```
+   static void CheckUsernameAndPassword(string username, string password, DataAccessObject _dao)
+            {
+                Console.WriteLine("\nTesting checkUsers");
+                Console.WriteLine("===============================================");
+                Console.WriteLine($"{username} {password}");
+
+                if (_dao.CheckUsernameAndPassword(username, password) == ("Login succesful"))
+                {
+                    Console.WriteLine($"User {username} logged in successfully");
+                }
+                else
+                {
+                    Console.WriteLine("Incorrect login details");
+                }
+                Console.WriteLine("----------------------------------------------");
+            }
+            
+                 RegisterPlayer("bobc", "P@ssword1", _dao);
+```
+Writing the function to test if the SQL procedure is being called correctly by the previous function. It is called with the arguments set out in the C# and SQL functions that has the shortened form of dataaccessobject as an argument so it connects to the SQL connection in the object.
+
+The last code snippet is the console app output that happens when you run dat602CLR portion of the application I have submitted. It runs through all the called methods and outputs the results. I have verified that they all work.
+
+I have written up all the functions in SQL and C# I have created in the Milestone 2 portion of the Dat602 Project Final Hand In.
+
+Also within the milestone two portion of the Final Hand In is the ACID Transactions write up which is the Atomicity, Consistency, Isolation, Durability principles that make up transactions (Database Concepts, n.d.). 
+
+Transactions are most useful when procedures touch multiple tables to make sure that no bad data is passed when doing complicated inserts and updates or deletes of data across multiple tables. If a procedure interacts/touches multiple tables it might be better to make it a transaction. Transactions are also ACID by default if you use the basic transaction syntax (What Does ACID Mean in Database Systems?, n.d.).
+
+#### References
+
+What are ACID Transactions? (n.d.). Databricks. Retrieved 20 May 2022, from https://databricks.com/glossary/acid-transactions
+
+What does ACID mean in Database Systems? (n.d.). Retrieved 20 May 2022, from https://database.guide/what-is-acid-in-databases/
