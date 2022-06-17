@@ -114,6 +114,66 @@ For milestone three I imported the methods with some tweaks from the C# dat602CL
 
 The dataaccessobjects classes stayed the same but the front end functions had to be rebuilt. I choose continue having lightweight methods in the forms as well as ways to open forms after the right buttons were pressed. I did this for Registration, Login, GameScreen, and Admin forms.
 
+```
+    public List<PlayerInDB> CheckUsers()
+        {
+
+            var aDataSet = MySqlHelper.ExecuteDataset(DatabaseAccessObject.mySqlConnection, "CALL checkUsers()");
+
+            List<PlayerInDB> dataList = new List<PlayerInDB>();
+
+            foreach (DataRow row in aDataSet.Tables[0].Rows)
+            {
+                PlayerInDB aPlayer = new PlayerInDB();
+                aPlayer.UserName = row.Field<string>("playerUsername");
+                dataList.Add(aPlayer);
+            }
+
+
+            return dataList;
+        }
+        public class PlayerInDB
+        {
+
+            //    Private _Username As String
+            private string _UserName;
+
+            public string UserName
+            {
+                get
+                {
+                    return _UserName;
+                }
+                set
+                {
+
+                    _UserName = value;
+                }
+            }
+```
+The code above is the checkUsers() C# intermediary code as a precursor to pulling it into the GUI form. It requires a encapsulated class of PlayerInDB so that the datagrid knows what fields to pull from. Username being the field I want pulled.
+
+```
+ private List<DatabaseAccessObject.PlayerInDB> PlayersDataSourceList;
+        public void refreshDS()
+        {
+            AdminTable.DataSource = null;
+            AdminTable.DataSource = PlayersDataSourceList;
+        }
+        private void AdminTable_Load(object sender, EventArgs e)
+        {
+            DatabaseAccessObject dbAccess = new DatabaseAccessObject();
+
+            PlayersDataSourceList = dbAccess.CheckUsers();
+            refreshDS();
+        }
+```
+The above code is first the PlayerInDB being declared but it needs the databaseaccessobject with dot notation called on it to access it. It is then given the name of PlayersDataSourceList. refreshDS() or refresh datasource is declaed as a method and the AdminTable which is my datagridview in my C# form, is accessing the datasource as dot notation it is equal to null then equal to the database username as PlayersDataSourceList.
+
+AdminTable_Load() method just has the databaseaccessobject declared as a instantiation of the class so we can acess the files methods in our form file. Then PlayersDataSourceList is equal to the shorthand form of databaseaccessobject dot notation accessing one of the methods CheckUsers() which then accesses the SQL code of checkUsers(); after it checks the users it refreshes the list.
+
+It is what allows admins to see all the users for the game and check that their adding or deleting users is working.
+
 I then added a write up to the report about my GUI forms and what they do with text fields and buttons explained how they work. 
 
 I implemented the link between the database and the C# intermediary functions/classes then the front end form C# code that writes and reads from the database.
