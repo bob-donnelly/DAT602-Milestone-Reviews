@@ -107,3 +107,15 @@ Transactions are most useful when procedures touch multiple tables to make sure 
 What are ACID Transactions? (n.d.). Databricks. Retrieved 20 May 2022, from https://databricks.com/glossary/acid-transactions
 
 What does ACID mean in Database Systems? (n.d.). Retrieved 20 May 2022, from https://database.guide/what-is-acid-in-databases/
+
+### Milestone Three Review
+
+For milestone three I imported the methods with some tweaks from the C# dat602CLR dataaccessobject into databaseaccessobject for the connection string and objects calling the procedures from the database. I also created forms with fields, labels and buttons corresponding to the arguments/data that needed to be passed, then passing them via buttons.
+
+The dataaccessobjects classes stayed the same but the front end functions had to be rebuilt. I choose continue having lightweight methods in the forms as well as ways to open forms after the right buttons were pressed.
+
+I then added a write up to the report about my GUI forms and what they do with text fields and buttons explained how they work. 
+
+I implemented the link between the database and the C# intermediary functions/classes then the front end form C# code that writes and reads from the database.
+
+I then finalised the report from milestone one, two and three updating what had changed in the milestones due to milestone three being added or improvements being made.
